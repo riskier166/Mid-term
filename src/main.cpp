@@ -76,27 +76,10 @@ extern "C" void app_main(void)
                     lcdMessageDisplayed = true;
                 }
 
-                // Move Spindle Home Motor OFF
-
-                if (xbox.Right())
-                {
-                    Dir.set(1);
-                    Step.setDuty(90.0);
-                }
-                else if (xbox.Left())
-                {
-                    Dir.set(0);
-                    Step.setDuty(90.0);
-                }
-                else if (xboxPressedOnce())
+                if (xboxPressedOnce())
                 {
                     changeState(SAMPLE_PLACEMENT);
                 }
-                else
-                {
-                    Step.setDuty(0);
-                }
-
                 // Condition Joystick button pressed --> next state
                 break;
             case SAMPLE_PLACEMENT:

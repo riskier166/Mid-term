@@ -69,11 +69,11 @@ int duty2;
 
 //Linear Actuator Stuff
 HBridge Actuator;
-uint8_t Actuator_pin[2] = {16, 17}, Actuator_pwm_channels[2] = {0, 1};
+uint8_t Actuator_pin[2] = {0, 4}, Actuator_pwm_channels[2] = {0, 1};
 
 //DC Motor Stuff
 HBridge Motor;
-uint8_t motor_pin[2] = {0, 4}, motor_pwm_channels[2] = {2, 3};
+uint8_t motor_pin[2] = {16, 17}, motor_pwm_channels[2] = {2, 3};
 
 // Joystick stuff
 Joystick xbox;
