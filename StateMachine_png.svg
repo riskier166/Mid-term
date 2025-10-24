@@ -1,0 +1,210 @@
+<?xml version="1.0" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="662pt" height="2261pt" viewBox="0.00 0.00 662.10 2260.80">
+<g id="graph0" class="graph" transform="translate(4,2256.800048828125) scale(1)" data-name="FSM">
+
+<polygon fill="white" stroke="none" points="-4,4 -4,-2256.8 658.1,-2256.8 658.1,4 -4,4" style=""/>
+<!-- S0 -->
+<g id="node1" class="node" pointer-events="visible" data-name="S0">
+
+<polygon fill="lightblue" stroke="black" points="419.86,-2253 255.54,-2253 255.54,-2078.2 419.86,-2078.2 419.86,-2253" style=""/>
+<text text-anchor="middle" x="337.7" y="-2236.2" font-family="Times,serif" font-size="14.00" style="">S0: Idle / Power-On</text>
+<text text-anchor="middle" x="337.7" y="-2203.4" font-family="Times,serif" font-size="14.00" style="">Actions:</text>
+<text text-anchor="middle" x="337.7" y="-2186.6" font-family="Times,serif" font-size="14.00" style="">Initialize LCD 'Welcome'</text>
+<text text-anchor="middle" x="337.7" y="-2169.8" font-family="Times,serif" font-size="14.00" style="">Move cylinder home</text>
+<text text-anchor="middle" x="337.7" y="-2153" font-family="Times,serif" font-size="14.00" style="">Motor OFF</text>
+<text text-anchor="middle" x="337.7" y="-2120.2" font-family="Times,serif" font-size="14.00" style="">Indicators:</text>
+<text text-anchor="middle" x="337.7" y="-2103.4" font-family="Times,serif" font-size="14.00" style="">RGB LED: Yellow (solid)</text>
+<text text-anchor="middle" x="337.7" y="-2086.6" font-family="Times,serif" font-size="14.00" style="">LCD: 'Place sample'</text>
+</g>
+<!-- S1 -->
+<g id="node2" class="node" pointer-events="visible" data-name="S1">
+
+<polygon fill="lightblue" stroke="black" points="305.18,-2008.7 112.22,-2008.7 112.22,-1868.1 305.18,-1868.1 305.18,-2008.7" style=""/>
+<text text-anchor="middle" x="208.7" y="-1992.2" font-family="Times,serif" font-size="14.00" style="">S1: Sample Placement</text>
+<text text-anchor="middle" x="208.7" y="-1959.4" font-family="Times,serif" font-size="14.00" style="">Actions:</text>
+<text text-anchor="middle" x="208.7" y="-1942.6" font-family="Times,serif" font-size="14.00" style="">Confirm placement</text>
+<text text-anchor="middle" x="208.7" y="-1925.8" font-family="Times,serif" font-size="14.00" style="">Display 'Ensure sample correct'</text>
+<text text-anchor="middle" x="208.7" y="-1893" font-family="Times,serif" font-size="14.00" style="">Indicators:</text>
+<text text-anchor="middle" x="208.7" y="-1876.2" font-family="Times,serif" font-size="14.00" style="">RGB LED: Yellow (flashing)</text>
+</g>
+<!-- S0&#45;&gt;S1 -->
+<g id="edge1" class="edge" data-name="S0-&gt;S1">
+
+<path fill="none" stroke="gray" d="M255.27,-2095.44C245.85,-2084.54 237.28,-2072.76 230.7,-2060.4 224.13,-2048.06 219.48,-2034.11 216.2,-2020.19" style=""/>
+<polygon fill="gray" stroke="gray" points="219.65,-2019.6 214.17,-2010.54 212.81,-2021.05 219.65,-2019.6" style=""/>
+<text text-anchor="middle" x="339.2" y="-2047.8" font-family="Times,serif" font-size="14.00" style="">Trigger: Power switch ON</text>
+<text text-anchor="middle" x="339.2" y="-2031" font-family="Times,serif" font-size="14.00" style="">Condition: User ready to place sample</text>
+</g>
+<!-- S2 -->
+<g id="node3" class="node" pointer-events="visible" data-name="S2">
+
+<polygon fill="lightblue" stroke="black" points="245.6,-1798.3 -0.2,-1798.3 -0.2,-1657.7 245.6,-1657.7 245.6,-1798.3" style=""/>
+<text text-anchor="middle" x="122.7" y="-1781.8" font-family="Times,serif" font-size="14.00" style="">S2: Cylinder Lowering</text>
+<text text-anchor="middle" x="122.7" y="-1749" font-family="Times,serif" font-size="14.00" style="">Actions:</text>
+<text text-anchor="middle" x="122.7" y="-1732.2" font-family="Times,serif" font-size="14.00" style="">Lower cylinder into fluid</text>
+<text text-anchor="middle" x="122.7" y="-1699.4" font-family="Times,serif" font-size="14.00" style="">Indicators:</text>
+<text text-anchor="middle" x="122.7" y="-1682.6" font-family="Times,serif" font-size="14.00" style="">RGB LED: Green (solid)</text>
+<text text-anchor="middle" x="122.7" y="-1665.8" font-family="Times,serif" font-size="14.00" style="">LCD: 'Press button to start measurement'</text>
+</g>
+<!-- S1&#45;&gt;S2 -->
+<g id="edge2" class="edge" data-name="S1-&gt;S2">
+
+<path fill="none" stroke="gray" d="M179.94,-1867.72C172.2,-1848.95 163.76,-1828.49 155.8,-1809.2" style=""/>
+<polygon fill="gray" stroke="gray" points="159.06,-1807.93 152.01,-1800.02 152.59,-1810.6 159.06,-1807.93" style=""/>
+<text text-anchor="middle" x="276.09" y="-1837.4" font-family="Times,serif" font-size="14.00" style="">Trigger: Joystick button pressed</text>
+<text text-anchor="middle" x="276.09" y="-1820.6" font-family="Times,serif" font-size="14.00" style="">Condition: Sample confirmed correct</text>
+</g>
+<!-- S3 -->
+<g id="node4" class="node" pointer-events="visible" data-name="S3">
+
+<polygon fill="lightblue" stroke="black" points="215.95,-1587.9 17.45,-1587.9 17.45,-1447.3 215.95,-1447.3 215.95,-1587.9" style=""/>
+<text text-anchor="middle" x="116.7" y="-1571.4" font-family="Times,serif" font-size="14.00" style="">S3: Stirring Phase</text>
+<text text-anchor="middle" x="116.7" y="-1538.6" font-family="Times,serif" font-size="14.00" style="">Actions:</text>
+<text text-anchor="middle" x="116.7" y="-1521.8" font-family="Times,serif" font-size="14.00" style="">Spin motor &lt;= 160 RPM for 30s</text>
+<text text-anchor="middle" x="116.7" y="-1489" font-family="Times,serif" font-size="14.00" style="">Indicators:</text>
+<text text-anchor="middle" x="116.7" y="-1472.2" font-family="Times,serif" font-size="14.00" style="">RGB LED: Red (flashing)</text>
+<text text-anchor="middle" x="116.7" y="-1455.4" font-family="Times,serif" font-size="14.00" style="">LCD: 'Stirring sample'</text>
+</g>
+<!-- S2&#45;&gt;S3 -->
+<g id="edge3" class="edge" data-name="S2-&gt;S3">
+
+<path fill="none" stroke="gray" d="M116.86,-1657.38C116.51,-1651.37 116.2,-1645.38 115.98,-1639.6 115.49,-1626.64 115.27,-1612.9 115.23,-1599.51" style=""/>
+<polygon fill="gray" stroke="gray" points="118.73,-1599.88 115.23,-1589.87 111.73,-1599.87 118.73,-1599.88" style=""/>
+<text text-anchor="middle" x="281.56" y="-1627" font-family="Times,serif" font-size="14.00" style="">Trigger: Joystick Y-axis down</text>
+<text text-anchor="middle" x="281.56" y="-1610.2" font-family="Times,serif" font-size="14.00" style="">Condition: Cylinder submerged &amp; user starts measurement</text>
+</g>
+<!-- S4 -->
+<g id="node5" class="node" pointer-events="visible" data-name="S4">
+
+<polygon fill="lightblue" stroke="black" points="216.09,-1377.4 37.31,-1377.4 37.31,-1220.2 216.09,-1220.2 216.09,-1377.4" style=""/>
+<text text-anchor="middle" x="126.7" y="-1361" font-family="Times,serif" font-size="14.00" style="">S4: Measurement Phase</text>
+<text text-anchor="middle" x="126.7" y="-1328.2" font-family="Times,serif" font-size="14.00" style="">Actions:</text>
+<text text-anchor="middle" x="126.7" y="-1311.4" font-family="Times,serif" font-size="14.00" style="">Reduce RPM to 20-30 RPM</text>
+<text text-anchor="middle" x="126.7" y="-1294.6" font-family="Times,serif" font-size="14.00" style="">Capture torque/current for 5s</text>
+<text text-anchor="middle" x="126.7" y="-1261.8" font-family="Times,serif" font-size="14.00" style="">Indicators:</text>
+<text text-anchor="middle" x="126.7" y="-1245" font-family="Times,serif" font-size="14.00" style="">RGB LED: Red (flashing)</text>
+<text text-anchor="middle" x="126.7" y="-1228.2" font-family="Times,serif" font-size="14.00" style="">LCD: 'Measuring viscosity'</text>
+</g>
+<!-- S3&#45;&gt;S4 -->
+<g id="edge4" class="edge" data-name="S3-&gt;S4">
+
+<path fill="none" stroke="gray" d="M119.92,-1446.81C120.77,-1428.39 121.7,-1408.26 122.59,-1388.97" style=""/>
+<polygon fill="gray" stroke="gray" points="126.07,-1389.39 123.04,-1379.24 119.08,-1389.07 126.07,-1389.39" style=""/>
+<text text-anchor="middle" x="223.03" y="-1416.6" font-family="Times,serif" font-size="14.00" style="">Trigger: Joystick button pressed</text>
+<text text-anchor="middle" x="223.03" y="-1399.8" font-family="Times,serif" font-size="14.00" style="">Condition: Stirring timer ends (30s)</text>
+</g>
+<!-- S5 -->
+<g id="node6" class="node" pointer-events="visible" data-name="S5">
+
+<polygon fill="lightblue" stroke="black" points="245.34,-1150.6 88.06,-1150.6 88.06,-975.8 245.34,-975.8 245.34,-1150.6" style=""/>
+<text text-anchor="middle" x="166.7" y="-1133.8" font-family="Times,serif" font-size="14.00" style="">S5: Result Display</text>
+<text text-anchor="middle" x="166.7" y="-1101" font-family="Times,serif" font-size="14.00" style="">Actions:</text>
+<text text-anchor="middle" x="166.7" y="-1084.2" font-family="Times,serif" font-size="14.00" style="">Average readings</text>
+<text text-anchor="middle" x="166.7" y="-1067.4" font-family="Times,serif" font-size="14.00" style="">Convert to viscosity</text>
+<text text-anchor="middle" x="166.7" y="-1050.6" font-family="Times,serif" font-size="14.00" style="">Show on LCD</text>
+<text text-anchor="middle" x="166.7" y="-1017.8" font-family="Times,serif" font-size="14.00" style="">Indicators:</text>
+<text text-anchor="middle" x="166.7" y="-1001" font-family="Times,serif" font-size="14.00" style="">RGB LED: Green (solid)</text>
+<text text-anchor="middle" x="166.7" y="-984.2" font-family="Times,serif" font-size="14.00" style="">LCD: 'Viscosity: xx cP'</text>
+</g>
+<!-- S4&#45;&gt;S5 -->
+<g id="edge5" class="edge" data-name="S4-&gt;S5">
+
+<path fill="none" stroke="gray" d="M140.02,-1220.01C143.19,-1201.49 146.62,-1181.48 149.92,-1162.17" style=""/>
+<polygon fill="gray" stroke="gray" points="153.36,-1162.85 151.6,-1152.4 146.46,-1161.66 153.36,-1162.85" style=""/>
+<text text-anchor="middle" x="262.23" y="-1189.4" font-family="Times,serif" font-size="14.00" style="">Trigger: Auto transition</text>
+<text text-anchor="middle" x="262.23" y="-1172.6" font-family="Times,serif" font-size="14.00" style="">Condition: Measurement timer ends (5s)</text>
+</g>
+<!-- S6 -->
+<g id="node7" class="node" pointer-events="visible" data-name="S6">
+
+<polygon fill="lightblue" stroke="black" points="290.41,-906.2 56.99,-906.2 56.99,-749 290.41,-749 290.41,-906.2" style=""/>
+<text text-anchor="middle" x="173.7" y="-889.8" font-family="Times,serif" font-size="14.00" style="">S6: Sample Removal</text>
+<text text-anchor="middle" x="173.7" y="-857" font-family="Times,serif" font-size="14.00" style="">Actions:</text>
+<text text-anchor="middle" x="173.7" y="-840.2" font-family="Times,serif" font-size="14.00" style="">Raise cylinder</text>
+<text text-anchor="middle" x="173.7" y="-823.4" font-family="Times,serif" font-size="14.00" style="">Wait until drip stops</text>
+<text text-anchor="middle" x="173.7" y="-790.6" font-family="Times,serif" font-size="14.00" style="">Indicators:</text>
+<text text-anchor="middle" x="173.7" y="-773.8" font-family="Times,serif" font-size="14.00" style="">RGB LED: Off</text>
+<text text-anchor="middle" x="173.7" y="-757" font-family="Times,serif" font-size="14.00" style="">LCD: 'Take sample to cleaning station'</text>
+</g>
+<!-- S5&#45;&gt;S6 -->
+<g id="edge6" class="edge" data-name="S5-&gt;S6">
+
+<path fill="none" stroke="gray" d="M168.27,-975.45C168.65,-958.52 169.1,-940.9 169.63,-924.4 169.7,-922.22 169.77,-920 169.85,-917.77" style=""/>
+<polygon fill="gray" stroke="gray" points="173.34,-918.13 170.2,-908.01 166.34,-917.88 173.34,-918.13" style=""/>
+<text text-anchor="middle" x="307.73" y="-945.4" font-family="Times,serif" font-size="14.00" style="">Trigger: Auto transition</text>
+<text text-anchor="middle" x="307.73" y="-928.6" font-family="Times,serif" font-size="14.00" style="">Condition: User presses button to remove sample</text>
+</g>
+<!-- S7 -->
+<g id="node8" class="node" pointer-events="visible" data-name="S7">
+
+<polygon fill="lightblue" stroke="black" points="296.01,-679 101.39,-679 101.39,-521.8 296.01,-521.8 296.01,-679" style=""/>
+<text text-anchor="middle" x="198.7" y="-662.6" font-family="Times,serif" font-size="14.00" style="">S7: Cleaning Station</text>
+<text text-anchor="middle" x="198.7" y="-629.8" font-family="Times,serif" font-size="14.00" style="">Actions:</text>
+<text text-anchor="middle" x="198.7" y="-613" font-family="Times,serif" font-size="14.00" style="">Lower cylinder into clean water</text>
+<text text-anchor="middle" x="198.7" y="-596.2" font-family="Times,serif" font-size="14.00" style="">Start 1 min timer</text>
+<text text-anchor="middle" x="198.7" y="-563.4" font-family="Times,serif" font-size="14.00" style="">Indicators:</text>
+<text text-anchor="middle" x="198.7" y="-546.6" font-family="Times,serif" font-size="14.00" style="">LCD: 'Cleaning... 1:00'</text>
+<text text-anchor="middle" x="198.7" y="-529.8" font-family="Times,serif" font-size="14.00" style=""> then 'Move to drying area'</text>
+</g>
+<!-- S6&#45;&gt;S7 -->
+<g id="edge7" class="edge" data-name="S6-&gt;S7">
+
+<path fill="none" stroke="gray" d="M177.67,-748.82C178.9,-731.78 180.46,-713.86 182.43,-697.2 182.69,-695.03 182.96,-692.84 183.25,-690.63" style=""/>
+<polygon fill="gray" stroke="gray" points="186.68,-691.35 184.57,-680.97 179.75,-690.4 186.68,-691.35" style=""/>
+<text text-anchor="middle" x="314.33" y="-718.2" font-family="Times,serif" font-size="14.00" style="">Trigger: Joystick button pressed</text>
+<text text-anchor="middle" x="314.33" y="-701.4" font-family="Times,serif" font-size="14.00" style="">Condition: Joystick moves to cleaning position</text>
+</g>
+<!-- S8 -->
+<g id="node9" class="node" pointer-events="visible" data-name="S8">
+
+<polygon fill="lightblue" stroke="black" points="307.06,-435.4 126.34,-435.4 126.34,-260.6 307.06,-260.6 307.06,-435.4" style=""/>
+<text text-anchor="middle" x="216.7" y="-418.6" font-family="Times,serif" font-size="14.00" style="">S8: Drying Station</text>
+<text text-anchor="middle" x="216.7" y="-385.8" font-family="Times,serif" font-size="14.00" style="">Actions:</text>
+<text text-anchor="middle" x="216.7" y="-369" font-family="Times,serif" font-size="14.00" style="">Lower cylinder</text>
+<text text-anchor="middle" x="216.7" y="-352.2" font-family="Times,serif" font-size="14.00" style="">Start fan</text>
+<text text-anchor="middle" x="216.7" y="-335.4" font-family="Times,serif" font-size="14.00" style="">Run 2 min timer</text>
+<text text-anchor="middle" x="216.7" y="-302.6" font-family="Times,serif" font-size="14.00" style="">Indicators:</text>
+<text text-anchor="middle" x="216.7" y="-285.8" font-family="Times,serif" font-size="14.00" style="">LCD: 'Drying... 2:00'</text>
+<text text-anchor="middle" x="216.7" y="-269" font-family="Times,serif" font-size="14.00" style=""> then 'Return to start position'</text>
+</g>
+<!-- S7&#45;&gt;S8 -->
+<g id="edge8" class="edge" data-name="S7-&gt;S8">
+
+<path fill="none" stroke="gray" d="M204.3,-521.54C206,-497.89 207.89,-471.59 209.67,-446.8" style=""/>
+<polygon fill="gray" stroke="gray" points="213.15,-447.26 210.37,-437.04 206.16,-446.76 213.15,-447.26" style=""/>
+<text text-anchor="middle" x="320.33" y="-491" font-family="Times,serif" font-size="14.00" style="">Trigger: Joystick X-axis rotate</text>
+<text text-anchor="middle" x="320.33" y="-474.2" font-family="Times,serif" font-size="14.00" style="">Condition: Cleaning timer ends (1 min)</text>
+<text text-anchor="middle" x="320.33" y="-457.4" font-family="Times,serif" font-size="14.00" style=""> Spindle moves to drying area</text>
+</g>
+<!-- S9 -->
+<g id="node10" class="node" pointer-events="visible" data-name="S9">
+
+<polygon fill="lightblue" stroke="black" points="423.98,-174.6 251.42,-174.6 251.42,0.2 423.98,0.2 423.98,-174.6" style=""/>
+<text text-anchor="middle" x="337.7" y="-157.8" font-family="Times,serif" font-size="14.00" style="">S9: Restart / Ready</text>
+<text text-anchor="middle" x="337.7" y="-125" font-family="Times,serif" font-size="14.00" style="">Actions:</text>
+<text text-anchor="middle" x="337.7" y="-108.2" font-family="Times,serif" font-size="14.00" style="">Move cylinder home</text>
+<text text-anchor="middle" x="337.7" y="-91.4" font-family="Times,serif" font-size="14.00" style="">Display 'Process finished'</text>
+<text text-anchor="middle" x="337.7" y="-74.6" font-family="Times,serif" font-size="14.00" style="">Motor OFF</text>
+<text text-anchor="middle" x="337.7" y="-41.8" font-family="Times,serif" font-size="14.00" style="">Indicators:</text>
+<text text-anchor="middle" x="337.7" y="-25" font-family="Times,serif" font-size="14.00" style="">LCD: 'End of process'</text>
+<text text-anchor="middle" x="337.7" y="-8.2" font-family="Times,serif" font-size="14.00" style="">System ready for next cycle</text>
+</g>
+<!-- S8&#45;&gt;S9 -->
+<g id="edge9" class="edge" data-name="S8-&gt;S9">
+
+<path fill="none" stroke="gray" d="M217.15,-260.34C219.91,-237.39 225.31,-213.23 235.33,-192.4 238.01,-186.83 241.11,-181.37 244.52,-176.06" style=""/>
+<polygon fill="gray" stroke="gray" points="247.34,-178.14 250.12,-167.92 241.57,-174.18 247.34,-178.14" style=""/>
+<text text-anchor="middle" x="340.88" y="-230.2" font-family="Times,serif" font-size="14.00" style="">Trigger: Joystick X-axis rotate</text>
+<text text-anchor="middle" x="340.88" y="-213.4" font-family="Times,serif" font-size="14.00" style="">Condition: Drying timer ends (2 min)</text>
+<text text-anchor="middle" x="340.88" y="-196.6" font-family="Times,serif" font-size="14.00" style=""> Spindle moves home</text>
+</g>
+<!-- S9&#45;&gt;S0 -->
+<g id="edge10" class="edge" data-name="S9-&gt;S0">
+
+<path fill="none" stroke="gray" d="M424.27,-159.52C432.67,-169.74 440.13,-180.77 445.7,-192.4 475.51,-254.62 459.7,-278.01 459.7,-347 459.7,-1939.4 459.7,-1939.4 459.7,-1939.4 459.7,-1993.54 469.7,-2011.87 445.7,-2060.4 440.81,-2070.3 434.57,-2079.77 427.58,-2088.69" style=""/>
+<polygon fill="gray" stroke="gray" points="425,-2086.33 421.32,-2096.26 430.39,-2090.79 425,-2086.33" style=""/>
+<text text-anchor="middle" x="556.9" y="-1189.4" font-family="Times,serif" font-size="14.00" style="">Trigger: Joystick X/Y return home</text>
+<text text-anchor="middle" x="556.9" y="-1172.6" font-family="Times,serif" font-size="14.00" style="">Condition: Power switch OFF</text>
+</g>
+</g>
+</svg>

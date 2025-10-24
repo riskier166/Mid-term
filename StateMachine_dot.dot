@@ -1,0 +1,27 @@
+digraph FSM {
+    rankdir=TB;
+    node [shape=box, style=filled, fillcolor=lightblue];
+    edge [color=gray];
+
+    S0 [label="S0: Idle / Power-On\n\nActions:\nInitialize LCD 'Welcome'\nMove cylinder home\nMotor OFF\n\nIndicators:\nRGB LED: Yellow (solid)\nLCD: 'Place sample'"];
+    S1 [label="S1: Sample Placement\n\nActions:\nConfirm placement\nDisplay 'Ensure sample correct'\n\nIndicators:\nRGB LED: Yellow (flashing)"];
+    S2 [label="S2: Cylinder Lowering\n\nActions:\nLower cylinder into fluid\n\nIndicators:\nRGB LED: Green (solid)\nLCD: 'Press button to start measurement'"];
+    S3 [label="S3: Stirring Phase\n\nActions:\nSpin motor <= 160 RPM for 30s\n\nIndicators:\nRGB LED: Red (flashing)\nLCD: 'Stirring sample'"];
+    S4 [label="S4: Measurement Phase\n\nActions:\nReduce RPM to 20-30 RPM\nCapture torque/current for 5s\n\nIndicators:\nRGB LED: Red (flashing)\nLCD: 'Measuring viscosity'"];
+    S5 [label="S5: Result Display\n\nActions:\nAverage readings\nConvert to viscosity\nShow on LCD\n\nIndicators:\nRGB LED: Green (solid)\nLCD: 'Viscosity: xx cP'"];
+    S6 [label="S6: Sample Removal\n\nActions:\nRaise cylinder\nWait until drip stops\n\nIndicators:\nRGB LED: Off\nLCD: 'Take sample to cleaning station'"];
+    S7 [label="S7: Cleaning Station\n\nActions:\nLower cylinder into clean water\nStart 1 min timer\n\nIndicators:\nLCD: 'Cleaning... 1:00'\n then 'Move to drying area'"];
+    S8 [label="S8: Drying Station\n\nActions:\nLower cylinder\nStart fan\nRun 2 min timer\n\nIndicators:\nLCD: 'Drying... 2:00'\n then 'Return to start position'"];
+    S9 [label="S9: Restart / Ready\n\nActions:\nMove cylinder home\nDisplay 'Process finished'\nMotor OFF\n\nIndicators:\nLCD: 'End of process'\nSystem ready for next cycle"];
+
+    S0 -> S1 [label="Trigger: Power switch ON\nCondition: User ready to place sample"];
+    S1 -> S2 [label="Trigger: Joystick button pressed\nCondition: Sample confirmed correct"];
+    S2 -> S3 [label="Trigger: Joystick Y-axis down\nCondition: Cylinder submerged & user starts measurement"];
+    S3 -> S4 [label="Trigger: Joystick button pressed\nCondition: Stirring timer ends (30s)"];
+    S4 -> S5 [label="Trigger: Auto transition\nCondition: Measurement timer ends (5s)"];
+    S5 -> S6 [label="Trigger: Auto transition\nCondition: User presses button to remove sample"];
+    S6 -> S7 [label="Trigger: Joystick button pressed\nCondition: Joystick moves to cleaning position"];
+    S7 -> S8 [label="Trigger: Joystick X-axis rotate\nCondition: Cleaning timer ends (1 min)\n User moves to drying area"];
+    S8 -> S9 [label="Trigger: Joystick X-axis rotate\nCondition: Drying timer ends (2 min)\n User moves home"];
+    S9 -> S0 [label="Trigger: Joystick X/Y return home\nCondition: Power switch OFF"];
+}
