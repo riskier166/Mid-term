@@ -10,6 +10,28 @@
 #include <Joystick.h>
 #include <SimplePWM.h>
 
+//LCD stuff
+#pragma once
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+#include "i2c_lcd.h"
+
+#ifdef __cplusplus
+}
+#endif
+
+// I2C configuration
+#define I2C_MASTER_SCL_IO 22
+#define I2C_MASTER_SDA_IO 21
+#define I2C_MASTER_FREQ_HZ 100000
+#define LCD_I2C_ADDR 0x27
+#define LCD_COLS 16
+#define LCD_ROWS 2
+
+
 // State machine stuff
 enum State {
     ESP_ENERGIZED = 0,
