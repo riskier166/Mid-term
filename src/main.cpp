@@ -11,13 +11,16 @@ static void IRAM_ATTR timerISR(void *arg);
 extern "C" void app_main(void)
 {
     // Timer
-    timer1.setup(timerISR, "MainTimer");timer1.startPeriodic(dt_us); // While timer
+    timer1.setup(timerISR, "MainTimer");
+    timer1.startPeriodic(dt_us); // While timer
 
     // Joystick
-    xbox.setup(x_pin, y_pin, sw_pin);xbox.calibrate(1000000); // 1 second
+    xbox.setup(x_pin, y_pin, sw_pin);
+    xbox.calibrate(1000000); // 1 second
 
     // Stepper motor stuff
-    Step.setup(step_pin, pwm_channel, &stepper_timer);Dir.setup(dir_pin, GPO);
+    Step.setup(step_pin, pwm_channel, &stepper_timer);
+    Dir.setup(dir_pin, GPO);
 
     // Initialize the LCD
     lcd_init();
@@ -31,7 +34,9 @@ extern "C" void app_main(void)
         {
         case ESP_ENERGIZED:
             lcd_put_cursor(0, 0);
-            lcd_send_string("Welcome, press button to start");
+            lcd_send_string("Welcome, press");
+            lcd_put_cursor(1, 0);
+            lcd_send_string("button to start");
             if (xbox.Right())
             {
                 Dir.set(1);
@@ -50,12 +55,14 @@ extern "C" void app_main(void)
             {
                 Step.setDuty(0);
             }
-            
+
             break;
         case SAMPLE_PLACEMENT:
             lcd_clear();
             lcd_put_cursor(0, 0);
-            lcd_send_string("Position is correct?");
+            lcd_send_string("Position is");
+            lcd_put_cursor(1, 0);
+            lcd_send_string("correct?");
             if (xbox.Pressed())
             {
                 changeState(JOYSTICK_UNLOCKED_1);
@@ -64,10 +71,16 @@ extern "C" void app_main(void)
         case JOYSTICK_UNLOCKED_1:
             lcd_clear();
             lcd_put_cursor(0, 0);
-            lcd_send_string("Positioning spindle...");
-
+            lcd_send_string("Positioning");
             lcd_put_cursor(1, 0);
-            lcd_send_string("Press button to start mixing");
+            lcd_send_string("spindle...");
+
+            vTaskDelay(pdMS_TO_TICKS(3000));
+            lcd_clear();
+            lcd_put_cursor(0, 0);
+            lcd_send_string("Press button to");
+            lcd_put_cursor(1, 0);
+            lcd_send_string("start mixing");
             if (xbox.Pressed())
             {
                 changeState(MIX_PROCESS);
@@ -76,7 +89,9 @@ extern "C" void app_main(void)
         case MIX_PROCESS:
             lcd_clear();
             lcd_put_cursor(0, 0);
-            lcd_send_string("Liquid stirring...");
+            lcd_send_string("Liquid");
+            lcd_put_cursor(1, 0);
+            lcd_send_string("stirring...");
             if (xbox.Pressed())
             {
                 changeState(VISCOSITY_MEASUREMENT);
@@ -84,8 +99,10 @@ extern "C" void app_main(void)
             break;
         case VISCOSITY_MEASUREMENT:
             lcd_clear();
-            lcd_put_cursor(0, 0);   
-            lcd_send_string("Measuring viscosity...");
+            lcd_put_cursor(0, 0);
+            lcd_send_string("Measuring");
+            lcd_put_cursor(1, 0);
+            lcd_send_string("viscosity...");
             if (xbox.Pressed())
             {
                 changeState(AVERAGE_CALC);
@@ -94,7 +111,9 @@ extern "C" void app_main(void)
         case AVERAGE_CALC:
             lcd_clear();
             lcd_put_cursor(0, 0);
-            lcd_send_string("Calculating average...");
+            lcd_send_string("Calculating");
+            lcd_put_cursor(1, 0);
+            lcd_send_string("average...");
             if (xbox.Pressed())
             {
                 changeState(JOYSTICK_UNLOCKED_2);
@@ -103,7 +122,9 @@ extern "C" void app_main(void)
         case JOYSTICK_UNLOCKED_2:
             lcd_clear();
             lcd_put_cursor(0, 0);
-            lcd_send_string("Joystick unlocked");
+            lcd_send_string("Joystick");
+            lcd_put_cursor(1, 0);
+            lcd_send_string("unlocked");
             if (xbox.Pressed())
             {
                 changeState(ESP_ENERGIZED);
