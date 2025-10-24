@@ -199,6 +199,7 @@ extern "C" void app_main(void)
                         lcdMessageDisplayed = true;
                     }
 
+                    Motor.setSpeed(27);
                     // Actions: Reduce Spindle RPM to 20-30 RPM
                     // Capture Torque/Current for 5 seconds
                 }
@@ -225,16 +226,30 @@ extern "C" void app_main(void)
                 }
                 break;
             case RESULT_DISPLAY:
-                if (!lcdMessageDisplayed)
+                if ((xTaskGetTickCount() - stateEnteredTicks) < pdMS_TO_TICKS(2000))
                 {
+                    if (!lcdMessageDisplayed)
+                    {
                     lcd_clear();
                     lcd_put_cursor(0, 0);
                     lcd_send_string("Calculating");
                     lcd_put_cursor(1, 0);
                     lcd_send_string("average...");
                     lcdMessageDisplayed = true;
+                    }
                 }
-
+                else
+                {
+                    if (!lcdPhase2Displayed)
+                    {
+                        lcd_clear();
+                        lcd_put_cursor(0, 0);
+                        lcd_send_string("Viscosity");
+                        lcd_put_cursor(1, 0);
+                        lcd_send_string("0.0 cp");
+                        lcdPhase2Displayed = true;
+                    }
+                }
                 // Actions: Calculating Average of the readings
                 // Converting to Viscosity Value
                 // Show Result on LCD
@@ -287,6 +302,8 @@ extern "C" void app_main(void)
                     lcd_put_cursor(1, 0);
                     lcd_send_string("Left/Right");
                     lcdMessageDisplayed = true;
+                    // Stop actuator when entering X-axis movement
+                    Actuator.setSpeed(0);
                 }
 
                 // X-axis movement (left/right rotation)
@@ -357,7 +374,6 @@ extern "C" void app_main(void)
                         lcd_send_string("(60s)");
                         lcdMessageDisplayed = true;
                     }
-                    
                 }
                 else
                 {
@@ -405,6 +421,8 @@ extern "C" void app_main(void)
                     lcd_put_cursor(1, 0);
                     lcd_send_string("Left/Right");
                     lcdMessageDisplayed = true;
+                    // Stop actuator when entering X-axis movement
+                    Actuator.setSpeed(0);
                 }
 
                 // X-axis movement (left/right rotation)
@@ -471,11 +489,13 @@ extern "C" void app_main(void)
                     lcd_send_string("Drying...");
                     lcd_put_cursor(1, 0);
                     lcd_send_string("(120s)");
-                    // Actions: Turn Spindle_Motor 130RPM for 2 min
+                    
+                    Motor.setSpeed(100);
                 }
                 else
                 {
                     changeState(DRYING_Y_MOVEMENT);
+                    Motor.setSpeed(0);
                 }
                 break;
             case DRYING_Y_MOVEMENT:
@@ -511,11 +531,17 @@ extern "C" void app_main(void)
                 }
                 break;
             case DRYING_X_MOVEMENT:
-                lcd_clear();
-                lcd_put_cursor(0, 0);
-                lcd_send_string("Rotate Spindle");
-                lcd_put_cursor(1, 0);
-                lcd_send_string("Left/Right");
+                if (!lcdMessageDisplayed)
+                {
+                    lcd_clear();
+                    lcd_put_cursor(0, 0);
+                    lcd_send_string("Rotate Spindle");
+                    lcd_put_cursor(1, 0);
+                    lcd_send_string("Left/Right");
+                    lcdMessageDisplayed = true;
+                    // Stop actuator when entering X-axis movement
+                    Actuator.setSpeed(0);
+                }
 
                 // X-axis movement (left/right rotation)
                 if (xbox.Left())
