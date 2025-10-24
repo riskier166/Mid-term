@@ -7,6 +7,8 @@
 #include <SimpleGPIO.h>
 #include <SimplePWM.h>
 #include <SimpleTimer.h>
+#include <Joystick.h>
+#include <SimplePWM.h>
 
 // State machine stuff
 enum State {
@@ -28,7 +30,18 @@ uint64_t dt_us = 10000; // 10 ms = 10000 us
 SimpleUART LabVIEW(115200);
 char buffer[30];int message_length;
 
-// GPIO stuff
-SimpleGPIO XD;
+// Joystick stuff
+Joystick xbox;
+const int sw_pin = 33, x_pin = 35, y_pin = 32;
+
+//Stepper Stuff
+SimplePWM Step;SimpleGPIO Dir;
+const uint8_t step_pin = 26, dir_pin = 25; const uint8_t pwm_channel = 0;
+TimerConfig stepper_timer{
+    .timer = LEDC_TIMER_0, 
+    .frequency = 32000, // 30kHz
+    .bit_resolution = LEDC_TIMER_10_BIT, 
+    .mode = LEDC_LOW_SPEED_MODE 
+};
 
 #endif // __DEFINITIONS_H__

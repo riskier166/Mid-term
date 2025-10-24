@@ -4,41 +4,57 @@ SimplePWM::SimplePWM()
 {
 }
 
-void SimplePWM::setup(int gpio_num, uint8_t channel, unsigned int invert, uint8_t bit_resolution, uint32_t frequency, ledc_timer_t timer, ledc_mode_t mode, ledc_intr_type_t interrupt)
+void SimplePWM::setup(const uint8_t pin, const uint8_t channel, TimerConfig *timer_config, bool invert)
 {
-    _channel = (ledc_channel_t) channel;
-    _timer = timer;
-    _mode = mode;
-    _max_digital_level = (1 << bit_resolution) - 1;
+    static bool fade_installed = false;
+    gpio_num = (gpio_num_t)pin;
+    _channel = (ledc_channel_t)channel;
+    _timer_config = timer_config;
+    _max_digital_level = (1 << timer_config->bit_resolution) - 1;
     ledc_timer_config_t ledc_timer = {
-        .speed_mode = _mode,
-        .duty_resolution = (ledc_timer_bit_t) bit_resolution,
-        .timer_num = _timer,
-        .freq_hz = frequency,
+        .speed_mode = timer_config->mode,
+        .duty_resolution = timer_config->bit_resolution,
+        .timer_num = timer_config->timer,
+        .freq_hz = timer_config->frequency,
         .clk_cfg = LEDC_AUTO_CLK,
         .deconfigure = false,
     };
-    ledc_timer_config(&ledc_timer);
+    esp_err_t err = ledc_timer_config(&ledc_timer);
+    if (err != ESP_OK)
+        printf("Timer config failed! Timer=%d, Mode=%d, err=%d\n", timer_config->timer, timer_config->mode, err);
     ledc_channel_config_t ledc_channel = {
         .gpio_num = gpio_num,
-        .speed_mode = _mode,
+        .speed_mode = timer_config->mode,
         .channel = _channel,
         .intr_type = LEDC_INTR_DISABLE,
-        .timer_sel = _timer,
+        .timer_sel = timer_config->timer,
         .duty = 0,
         .hpoint = 0,
         .flags = invert,
     };
-    // ledc_channel.flags.output_invert = invert;
-    ledc_channel_config(&ledc_channel);
-    ledc_fade_func_install(0);
+    _last_level = 0;
+    err = ledc_channel_config(&ledc_channel);
+    if (err != ESP_OK)
+        printf("LED set channel failed! err = %d\n", err);
+    if (!fade_installed)
+    {
+        ledc_fade_func_install(0);
+        fade_installed = true;
+    }
+    printf("PWM Setup: GPIO=%d, Channel=%d, Timer=%d, Mode=%d\n", pin, channel, timer_config->timer, timer_config->mode);
 }
 
 void SimplePWM::setDigitalLevel(uint32_t digital_level, uint32_t hpoint)
 {
-    if (digital_level > _max_digital_level)
-        digital_level = _max_digital_level;
-    ledc_set_duty_and_update(_mode, _channel, digital_level, hpoint);
+    if (digital_level != _last_level)
+    {
+        if (digital_level > _max_digital_level)
+            digital_level = _max_digital_level;
+        esp_err_t err = ledc_set_duty_and_update(_timer_config->mode, _channel, digital_level, hpoint);
+        if (err != ESP_OK)
+            printf("Failed to set duty: channel=%d, mode=%d, level=%ld, err=%d\n", _channel, _timer_config->mode, digital_level, err);
+        _last_level = digital_level;
+    }
 }
 void SimplePWM::setDuty(float duty_percentage)
 {
@@ -48,14 +64,7 @@ void SimplePWM::setDuty(float duty_percentage)
 
 void SimplePWM::setFrequency(uint32_t frequency)
 {
-    ledc_set_freq(_mode, _timer, frequency);
-}
-float SimplePWM::getDuty()
-{
-    return 100.0f * ledc_get_duty(_mode, _channel) / (float)_max_digital_level;
-}
-
-uint32_t SimplePWM::getFrequency()
-{
-    return ledc_get_freq(_mode,_timer);
+    esp_err_t err = ledc_set_freq(_timer_config->mode, _timer_config->timer, frequency);
+    if (err != ESP_OK)
+            printf("Failed to set freq: channel=%d, mode=%d,  timer=%d, err=%d\n", _channel, _timer_config->mode,_timer_config->timer, err);
 }
