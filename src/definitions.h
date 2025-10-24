@@ -10,7 +10,7 @@
 #include <Joystick.h>
 #include <SimplePWM.h>
 
-//LCD stuff
+// LCD stuff
 #pragma once
 #ifdef __cplusplus
 extern "C"
@@ -31,18 +31,26 @@ extern "C"
 #define LCD_COLS 16
 #define LCD_ROWS 2
 
-
 // State machine stuff
-enum State {
+enum State
+{
     IDLE_POWERON = 0,
     SAMPLE_PLACEMENT,
     SPINDLE_LOWERING,
     STIRRING_PHASE,
     MEASUREMENT_PHASE,
+    MEASUREMENT_READY,
     RESULT_DISPLAY,
     SAMPLE_REMOVAL,
+    SAMPLE_X_MOVEMENT,
+    SAMPLE_Y_MOVEMENT_2,
     CLEANING_STATION,
+    CLEANING_Y_MOVEMENT,
+    CLEANING_X_MOVEMENT,
+    CLEANING_Y_MOVEMENT_2,
     DRYING_STATION,
+    DRYING_Y_MOVEMENT,
+    DRYING_X_MOVEMENT,
     RESTART_READY,
 };
 
@@ -53,20 +61,22 @@ uint64_t dt_us = 10000; // 10 ms = 10000 us
 
 // UART stuff
 SimpleUART LabVIEW(115200);
-char buffer[30];int message_length;
+char buffer[30];
+int message_length;
 
 // Joystick stuff
 Joystick xbox;
 const int sw_pin = 33, x_pin = 35, y_pin = 32;
 
-//Stepper Stuff
-SimplePWM Step;SimpleGPIO Dir;
-const uint8_t step_pin = 26, dir_pin = 25; const uint8_t pwm_channel = 0;
+// Stepper Stuff
+SimplePWM Step;
+SimpleGPIO Dir;
+const uint8_t step_pin = 26, dir_pin = 25;
+const uint8_t pwm_channel = 0;
 TimerConfig stepper_timer{
-    .timer = LEDC_TIMER_0, 
+    .timer = LEDC_TIMER_0,
     .frequency = 32000, // 30kHz
-    .bit_resolution = LEDC_TIMER_10_BIT, 
-    .mode = LEDC_LOW_SPEED_MODE 
-};
+    .bit_resolution = LEDC_TIMER_10_BIT,
+    .mode = LEDC_LOW_SPEED_MODE};
 
 #endif // __DEFINITIONS_H__
