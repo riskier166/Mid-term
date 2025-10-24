@@ -6,6 +6,7 @@
 #include <SimpleUART.h>
 #include <SimpleGPIO.h>
 #include <SimplePWM.h>
+#include <HBridge.h>
 #include <SimpleTimer.h>
 #include <Joystick.h>
 #include <SimplePWM.h>
@@ -63,6 +64,16 @@ uint64_t dt_us = 10000; // 10 ms = 10000 us
 SimpleUART LabVIEW(115200);
 char buffer[30];
 int message_length;
+int duty1;
+int duty2;
+
+//Linear Actuator Stuff
+HBridge Actuator;
+uint8_t Actuator_pin[2] = {16, 17}, Actuator_pwm_channels[2] = {0, 1};
+
+//DC Motor Stuff
+HBridge Motor;
+uint8_t motor_pin[2] = {0, 4}, motor_pwm_channels[2] = {2, 3};
 
 // Joystick stuff
 Joystick xbox;
