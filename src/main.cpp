@@ -68,6 +68,12 @@ extern "C" void app_main(void)
     Step.setup(step_pin, pwm_channel, &stepper_timer);
     Dir.setup(dir_pin, GPO);
 
+    // Actuator Setup
+    Actuator.setup(Actuator_pin, Actuator_pwm_channels);
+
+    // Motor Setup
+    Motor.setup(motor_pin, motor_pwm_channels);
+
     // Initialize the LCD
     lcd_init();
 
@@ -152,18 +158,16 @@ extern "C" void app_main(void)
                 if (xbox.Up())
                 {
                     // Move spindle up
-                    Dir.set(1);
-                    Step.setDuty(90.0);
+                    Actuator.setSpeed(100);
                 }
                 else if (xbox.Down())
                 {
                     // Move spindle down
-                    Dir.set(0);
-                    Step.setDuty(90.0);
+                    Actuator.setSpeed(-100);
                 }
                 else
                 {
-                    Step.setDuty(0);
+                    Actuator.setSpeed(0);
                 }
 
                 // Accept position and proceed with button press
@@ -185,10 +189,11 @@ extern "C" void app_main(void)
                         lcd_send_string("stirring... (30s)");
                         lcdMessageDisplayed = true;
                     }
-                    // Actions: Spin Spindle Motor 160RPM for 30 seconds
+                    Motor.setSpeed(100);
                 }
                 else
                 {
+                    Motor.setSpeed(0);
                     if (!lcdPhase2Displayed)
                     {
                         lcd_clear();
@@ -281,18 +286,16 @@ extern "C" void app_main(void)
                 if (xbox.Up())
                 {
                     // Move spindle up
-                    Dir.set(1);
-                    Step.setDuty(90.0);
+                    Actuator.setSpeed(100);
                 }
                 else if (xbox.Down())
                 {
                     // Move spindle down
-                    Dir.set(0);
-                    Step.setDuty(90.0);
+                    Actuator.setSpeed(-100);
                 }
                 else
                 {
-                    Step.setDuty(0);
+                    Actuator.setSpeed(0);
                 }
 
                 // Condition Spindle Position Reached and proceed
@@ -350,18 +353,16 @@ extern "C" void app_main(void)
                 if (xbox.Up())
                 {
                     // Move up
-                    Dir.set(1);
-                    Step.setDuty(90.0);
+                    Actuator.setSpeed(100);
                 }
                 else if (xbox.Down())
                 {
                     // Move down
-                    Dir.set(0);
-                    Step.setDuty(90.0);
+                    Actuator.setSpeed(-100);
                 }
                 else
                 {
-                    Step.setDuty(0);
+                    Actuator.setSpeed(0);
                 }
 
                 if (xboxPressedOnce())
@@ -404,18 +405,16 @@ extern "C" void app_main(void)
                 if (xbox.Up())
                 {
                     // Move up
-                    Dir.set(1);
-                    Step.setDuty(90.0);
+                    Actuator.setSpeed(100);
                 }
                 else if (xbox.Down())
                 {
                     // Move down
-                    Dir.set(0);
-                    Step.setDuty(90.0);
+                    Actuator.setSpeed(-100);
                 }
                 else
                 {
-                    Step.setDuty(0);
+                    Actuator.setSpeed(0);
                 }
 
                 if (xboxPressedOnce())
@@ -458,28 +457,30 @@ extern "C" void app_main(void)
                 }
                 break;
             case CLEANING_Y_MOVEMENT_2:
-                lcd_clear();
-                lcd_put_cursor(0, 0);
-                lcd_send_string("Y-axis Movement");
-                lcd_put_cursor(1, 0);
-                lcd_send_string("Up/Down");
+                if (!lcdMessageDisplayed)
+                {
+                    lcd_clear();
+                    lcd_put_cursor(0, 0);
+                    lcd_send_string("Y-axis Movement");
+                    lcd_put_cursor(1, 0);
+                    lcd_send_string("Up/Down");
+                    lcdMessageDisplayed = true;
+                }
 
                 // Y-axis movement (up/down) again
                 if (xbox.Up())
                 {
                     // Move up
-                    Dir.set(1);
-                    Step.setDuty(90.0);
+                    Actuator.setSpeed(100);
                 }
                 else if (xbox.Down())
                 {
                     // Move down
-                    Dir.set(0);
-                    Step.setDuty(90.0);
+                    Actuator.setSpeed(-100);
                 }
                 else
                 {
-                    Step.setDuty(0);
+                    Actuator.setSpeed(0);
                 }
 
                 if (xboxPressedOnce())
@@ -504,28 +505,30 @@ extern "C" void app_main(void)
                 }
                 break;
             case DRYING_Y_MOVEMENT:
-                lcd_clear();
-                lcd_put_cursor(0, 0);
-                lcd_send_string("Drying Done");
-                lcd_put_cursor(1, 0);
-                lcd_send_string("Move Up/Down");
+                if (!lcdMessageDisplayed)
+                {
+                    lcd_clear();
+                    lcd_put_cursor(0, 0);
+                    lcd_send_string("Drying Done");
+                    lcd_put_cursor(1, 0);
+                    lcd_send_string("Move Up/Down");
+                    lcdMessageDisplayed = true;
+                }
 
                 // Y-axis movement (up/down)
                 if (xbox.Up())
                 {
                     // Move up
-                    Dir.set(1);
-                    Step.setDuty(90.0);
+                    Actuator.setSpeed(100);
                 }
                 else if (xbox.Down())
                 {
                     // Move down
-                    Dir.set(0);
-                    Step.setDuty(90.0);
+                    Actuator.setSpeed(-100);
                 }
                 else
                 {
-                    Step.setDuty(0);
+                    Actuator.setSpeed(0);
                 }
 
                 if (xboxPressedOnce())
