@@ -14,35 +14,9 @@ static bool xboxPrevPressed = false;
 static TickType_t xboxLastEdgeTicks = 0;
 static const TickType_t xboxDebounceTicks = pdMS_TO_TICKS(50); // 50 ms debounce
 
-static bool xboxPressedOnce()
-{
-    bool curr = xbox.Pressed();
-    bool rising = (curr && !xboxPrevPressed);
-    TickType_t now = xTaskGetTickCount();
-    if (rising && ((now - xboxLastEdgeTicks) >= xboxDebounceTicks))
-    {
-        xboxLastEdgeTicks = now;
-        xboxPrevPressed = curr;
-        return true;
-    }
-    xboxPrevPressed = curr;
-    return false;
-}
+static bool xboxPressedOnce();
 
-static bool xboxReleasedOnce()
-{
-    bool curr = xbox.Pressed();
-    bool falling = (!curr && xboxPrevPressed);
-    TickType_t now = xTaskGetTickCount();
-    if (falling && ((now - xboxLastEdgeTicks) >= xboxDebounceTicks))
-    {
-        xboxLastEdgeTicks = now;
-        xboxPrevPressed = curr;
-        return true;
-    }
-    xboxPrevPressed = curr;
-    return false;
-}
+static bool xboxReleasedOnce();
 
 // Track when we entered the current state so we can do non-blocking delays
 static TickType_t stateEnteredTicks = 0;
@@ -216,7 +190,7 @@ extern "C" void app_main(void)
                         lcd_put_cursor(0, 0);
                         lcd_send_string("Measuring");
                         lcd_put_cursor(1, 0);
-                        lcd_send_string("viscosity... (5s)");
+                        lcd_send_string("viscosity...(5s)");
                         lcdMessageDisplayed = true;
                     }
 
@@ -382,7 +356,7 @@ extern "C" void app_main(void)
                         lcd_send_string("(60s)");
                         lcdMessageDisplayed = true;
                     }
-                    // Actions: Cleaning for 1 minute
+                    
                 }
                 else
                 {
@@ -496,7 +470,7 @@ extern "C" void app_main(void)
                     lcd_send_string("Drying...");
                     lcd_put_cursor(1, 0);
                     lcd_send_string("(120s)");
-                    // Actions: Turn Spindle_Motor 160RPM for 2 min
+                    // Actions: Turn Spindle_Motor 130RPM for 2 min
                 }
                 else
                 {
@@ -591,4 +565,34 @@ void changeState(State newState)
 static void IRAM_ATTR timerISR(void *arg)
 {
     timer1.setInterrupt();
+}
+
+static bool xboxPressedOnce()
+{
+    bool curr = xbox.Pressed();
+    bool rising = (curr && !xboxPrevPressed);
+    TickType_t now = xTaskGetTickCount();
+    if (rising && ((now - xboxLastEdgeTicks) >= xboxDebounceTicks))
+    {
+        xboxLastEdgeTicks = now;
+        xboxPrevPressed = curr;
+        return true;
+    }
+    xboxPrevPressed = curr;
+    return false;
+}
+
+static bool xboxReleasedOnce()
+{
+    bool curr = xbox.Pressed();
+    bool falling = (!curr && xboxPrevPressed);
+    TickType_t now = xTaskGetTickCount();
+    if (falling && ((now - xboxLastEdgeTicks) >= xboxDebounceTicks))
+    {
+        xboxLastEdgeTicks = now;
+        xboxPrevPressed = curr;
+        return true;
+    }
+    xboxPrevPressed = curr;
+    return false;
 }
