@@ -28,95 +28,111 @@ extern "C" void app_main(void)
     // Clear the display
     lcd_clear();
 
-    while (1)
+    if (timer1.interruptAvailable())
     {
-        if (timer1.interruptAvailable())
+        switch (currentState)
         {
-            switch (currentState)
+        case ESP_ENERGIZED:
+            lcd_put_cursor(0, 0);
+            lcd_send_string("Welcome, press");
+            lcd_put_cursor(1, 0);
+            lcd_send_string("button to start");
+            if (xbox.Right())
             {
-            case ESP_ENERGIZED:
-                lcd_put_cursor(0, 0);
-                lcd_send_string("Welcome, press button to start");
-                if (xbox.Right())
-                {
-                    Dir.set(1);
-                    Step.setDuty(90.0);
-                }
-                else if (xbox.Left())
-                {
-                    Dir.set(0);
-                    Step.setDuty(90.0);
-                }
-                else if (xbox.Pressed())
-                {
-                    changeState(SAMPLE_PLACEMENT);
-                }
-                else
-                {
-                    Step.setDuty(0);
-                }
-
-                break;
-            case SAMPLE_PLACEMENT:
-                lcd_clear();
-                lcd_put_cursor(0, 0);
-                lcd_send_string("Position is correct?");
-                if (xbox.Pressed())
-                {
-                    changeState(JOYSTICK_UNLOCKED_1);
-                }
-                break;
-            case JOYSTICK_UNLOCKED_1:
-                lcd_clear();
-                lcd_put_cursor(0, 0);
-                lcd_send_string("Positioning spindle...");
-
-                lcd_put_cursor(1, 0);
-                lcd_send_string("Press button to start mixing");
-                if (xbox.Pressed())
-                {
-                    changeState(MIX_PROCESS);
-                }
-                break;
-            case MIX_PROCESS:
-                lcd_clear();
-                lcd_put_cursor(0, 0);
-                lcd_send_string("Liquid stirring...");
-                if (xbox.Pressed())
-                {
-                    changeState(VISCOSITY_MEASUREMENT);
-                }
-                break;
-            case VISCOSITY_MEASUREMENT:
-                lcd_clear();
-                lcd_put_cursor(0, 0);
-                lcd_send_string("Measuring viscosity...");
-                if (xbox.Pressed())
-                {
-                    changeState(AVERAGE_CALC);
-                }
-                break;
-            case AVERAGE_CALC:
-                lcd_clear();
-                lcd_put_cursor(0, 0);
-                lcd_send_string("Calculating average...");
-                if (xbox.Pressed())
-                {
-                    changeState(JOYSTICK_UNLOCKED_2);
-                }
-                break;
-            case JOYSTICK_UNLOCKED_2:
-                lcd_clear();
-                lcd_put_cursor(0, 0);
-                lcd_send_string("Joystick unlocked");
-                if (xbox.Pressed())
-                {
-                    changeState(ESP_ENERGIZED);
-                }
-                break;
+                Dir.set(1);
+                Step.setDuty(90.0);
             }
+            else if (xbox.Left())
+            {
+                Dir.set(0);
+                Step.setDuty(90.0);
+            }
+            else if (xbox.Pressed())
+            {
+                changeState(SAMPLE_PLACEMENT);
+            }
+            else
+            {
+                Step.setDuty(0);
+            }
+
+            break;
+        case SAMPLE_PLACEMENT:
+            lcd_clear();
+            lcd_put_cursor(0, 0);
+            lcd_send_string("Position is");
+            lcd_put_cursor(1, 0);
+            lcd_send_string("correct?");
+            if (xbox.Pressed())
+            {
+                changeState(JOYSTICK_UNLOCKED_1);
+            }
+            break;
+        case JOYSTICK_UNLOCKED_1:
+            lcd_clear();
+            lcd_put_cursor(0, 0);
+            lcd_send_string("Positioning");
+            lcd_put_cursor(1, 0);
+            lcd_send_string("spindle...");
+
+            vTaskDelay(pdMS_TO_TICKS(3000));
+            lcd_clear();
+            lcd_put_cursor(0, 0);
+            lcd_send_string("Press button to");
+            lcd_put_cursor(1, 0);
+            lcd_send_string("start mixing");
+            if (xbox.Pressed())
+            {
+                changeState(MIX_PROCESS);
+            }
+            break;
+        case MIX_PROCESS:
+            lcd_clear();
+            lcd_put_cursor(0, 0);
+            lcd_send_string("Liquid");
+            lcd_put_cursor(1, 0);
+            lcd_send_string("stirring...");
+            if (xbox.Pressed())
+            {
+                changeState(VISCOSITY_MEASUREMENT);
+            }
+            break;
+        case VISCOSITY_MEASUREMENT:
+            lcd_clear();
+            lcd_put_cursor(0, 0);
+            lcd_send_string("Measuring");
+            lcd_put_cursor(1, 0);
+            lcd_send_string("viscosity...");
+            if (xbox.Pressed())
+            {
+                changeState(AVERAGE_CALC);
+            }
+            break;
+        case AVERAGE_CALC:
+            lcd_clear();
+            lcd_put_cursor(0, 0);
+            lcd_send_string("Calculating");
+            lcd_put_cursor(1, 0);
+            lcd_send_string("average...");
+            if (xbox.Pressed())
+            {
+                changeState(JOYSTICK_UNLOCKED_2);
+            }
+            break;
+        case JOYSTICK_UNLOCKED_2:
+            lcd_clear();
+            lcd_put_cursor(0, 0);
+            lcd_send_string("Joystick");
+            lcd_put_cursor(1, 0);
+            lcd_send_string("unlocked");
+            if (xbox.Pressed())
+            {
+                changeState(ESP_ENERGIZED);
+            }
+            break;
         }
     }
+}
 
     void changeState(State newState)
     {
