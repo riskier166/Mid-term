@@ -10,6 +10,8 @@
 #include <SimpleTimer.h>
 #include <Joystick.h>
 #include <SimplePWM.h>
+#include <QuadratureEncoder.h>
+#include <PID.h>
 
 // LCD stuff
 #pragma once
@@ -83,11 +85,22 @@ const int sw_pin = 33, x_pin = 35, y_pin = 32;
 SimplePWM Step;
 SimpleGPIO Dir;
 const uint8_t step_pin = 26, dir_pin = 25;
-const uint8_t pwm_channel = 0;
+const uint8_t pwm_channel = 4;
 TimerConfig stepper_timer{
     .timer = LEDC_TIMER_0,
     .frequency = 32000, // 30kHz
     .bit_resolution = LEDC_TIMER_10_BIT,
     .mode = LEDC_LOW_SPEED_MODE};
+
+//Quadrature Encoder Stuff
+QuadratureEncoder encoder;
+uint8_t EncIN[] = {27, 14}; const float degrees_per_edge = 0.36437;
+
+//PID stuff
+PID control;
+float gains[3];
+float reference;
+int mode;
+float measurement;float error; float u;
 
 #endif // __DEFINITIONS_H__
